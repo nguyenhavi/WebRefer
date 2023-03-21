@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+    php-apache-environment:
+        container_name: php-apache
+        build:
+            context: ./php-apache2
+            dockerfile: Dockerfile
+        depends_on:
+          - db
+        volumes:
+            - ./sources/:/var/www/html/
+        ports:
+            - 8000:80
+            
+    db:
+        container_name: db
+        image: mysql
+        restart: always
+        environment:
+            MYSQL_RANDOM_ROOT_PASSWORD: 1
+            MYSQL_DATABASE: fashion
+            MYSQL_USER: david
+            MYSQL_PASSWORD: 51WXHZC[r7t4Kw8I
+        ports:
+            - "3306:3306"
+        volumes: 
+            - ./sources/database/fashion.sql:/docker-entrypoint-initdb.d/dump.sql
